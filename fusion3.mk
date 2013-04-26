@@ -175,6 +175,7 @@ PRODUCT_COPY_FILES += \
 
 # ALSA configuration
 PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/snd_soc_msm/snd_soc_msm_2x:system/etc/snd_soc_msm/snd_soc_msm_2x \
     $(COMMON_PATH)/rootdir/system/etc/snd_soc_msm/snd_soc_msm_2x_Fusion3:system/etc/snd_soc_msm/snd_soc_msm_2x_Fusion3
 
 # Thermal monitor configuration
