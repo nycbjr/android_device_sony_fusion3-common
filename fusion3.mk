@@ -21,10 +21,14 @@ COMMON_PATH := device/sony/fusion3-common
 
 DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
 
+ifneq ($(BOARD_HAVE_RADIO),false)
+    DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay-radio
+    $(call inherit-product, $(COMMON_PATH)/radio.mk)
+endif
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
@@ -51,6 +55,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
     $(COMMON_PATH)/rootdir/fstab.qcom:recovery/root/fstab.qcom
+
+# Prima wifi config
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini
 
 # QCOM Display
 PRODUCT_PACKAGES += \
@@ -176,58 +184,24 @@ PRODUCT_COPY_FILES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
-# Radio and Telephony
-PRODUCT_PROPERTY_OVERRIDES += \
-    telephony.lteOnCdmaDevice=0 \
-    ro.ril.transmitpower=true \
-    persist.radio.add_power_save=1
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    rild.libpath=/system/lib/libril-qc-qmi-1.so
-
 # GPS
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.gps.qmienabled=true
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hwui.texture_cache_size=128.0f \
-    ro.hwui.text_small_cache_width=2048
-
-# External Display
-PRODUCT_PROPERTY_OVERRIDES += \
-    hw.trueMirrorSupported=1 \
-    ro.hwui.external_width=1920 \
-    ro.hwui.external_height=1080
-
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.audio.fluence.mode=endfire \
-    persist.audio.vr.enable=false \
     persist.audio.handset.mic=analog \
     persist.audio.lowlatency.rec=false \
-    persist.audio.hp=true \
     af.resampler.quality=255 \
-    mpq.audio.decode=true
-
-# Audio LPA
-PRODUCT_PROPERTY_OVERRIDES += \
-    lpa.decode=true
+    ro.qc.sdk.audio.fluencetype=none \
+    lpa.decode=false \
+    tunnel.decode=true \
+    tunnel.audiovideo.decode=true
 
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bt.hci_transport=smd
 
-# Do not power down SIM card when modem is sent to Low Power Mode.
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.radio.apm_sim_not_pwdn=1
-
-# Ril sends only one RIL_UNSOL_CALL_RING, so set call_ring.multiple to false
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.call_ring.multiple=0 \
-    telephony.lteOnGsmDevice=1
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    debug.egl.recordable.rgba8888=1
-
-# Include non-opensource parts if available
-$(call inherit-product-if-exists, vendor/sony/fusion3-common/fusion3-common-vendor.mk)
+# Include non-opensource parts
+$(call inherit-product, vendor/sony/fusion3-common/fusion3-common-vendor.mk)
