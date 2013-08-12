@@ -28,6 +28,8 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 TARGET_BOARD_PLATFORM := msm8960
 BOARD_VENDOR_PLATFORM := fusion3
 
+BOARD_LIB_DUMPSTATE := libdumpstate.sony
+
 # Architecture
 TARGET_ARCH_VARIANT_CPU := cortex-a9
 
@@ -35,6 +37,7 @@ TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_GLOBAL_CFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64
+TARGET_CPU_VARIANT := krait
 
 # Krait optimizations
 TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
@@ -63,6 +66,8 @@ WIFI_DRIVER_MODULE_NAME          := "wlan"
 WIFI_DRIVER_FW_PATH_STA          := "sta"
 WIFI_DRIVER_FW_PATH_AP           := "ap"
 
+BOARD_USE_SONY_MACUPDATE := true
+
 TARGET_PROVIDES_LIBLIGHT := true
 
 # Camera
@@ -86,9 +91,12 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/
 # Custom boot
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 BOARD_CUSTOM_BOOTIMG_MK := device/sony/fusion3-common/custombootimg.mk
-TARGET_RELEASETOOLS_EXTENSIONS := device/sony/fusion3-common
+#TARGET_RELEASETOOLS_EXTENSIONS := device/sony/fusion3-common
 BOARD_CUSTOM_GRAPHICS := ../../../device/sony/fusion3-common/recovery/graphics.c
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
+
+TARGET_RECOVERY_FSTAB := device/sony/fusion3-common/rootdir/fstab.qcom
+RECOVERY_FSTAB_VERSION := 2
 
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -101,9 +109,11 @@ TARGET_USES_QCOM_MM_AUDIO := true
 # Media
 TARGET_QCOM_MEDIA_VARIANT := caf
 
+BOARD_CHARGER_ENABLE_SUSPEND := true
+
 # FM radio
-BOARD_USES_STE_FMRADIO := true
-COMMON_GLOBAL_CFLAGS += -DSTE_FM
+#BOARD_USES_STE_FMRADIO := true
+#COMMON_GLOBAL_CFLAGS += -DSTE_FM
 
 # Sensors
 SOMC_CFG_SENSORS := true

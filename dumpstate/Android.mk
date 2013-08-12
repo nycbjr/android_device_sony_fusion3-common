@@ -1,5 +1,4 @@
-# Copyright (C) 2012 The Android Open Source Project
-# Copyright (C) 2012 The CyanogenMod Project
+# Copyright (C) 2011 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,17 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Custom OTA Package commands for fusion3"""
+LOCAL_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
 
-import common
-import os
-import shutil
+LOCAL_C_INCLUDES := frameworks/native/cmds/dumpstate
 
-TARGET_DIR = os.getenv('OUT')
+LOCAL_SRC_FILES := dumpstate.c
 
-def FullOTA_Assertions(self):
-  bootimage_path = os.path.join(TARGET_DIR, "boot.elf")
-  prebuilt_dir = os.path.join(self.input_tmp, "BOOTABLE_IMAGES")
-  prebuilt_path = os.path.join(prebuilt_dir, "boot.img")
-  os.mkdir(prebuilt_dir)
-  shutil.copyfile(bootimage_path, prebuilt_path)
+LOCAL_MODULE := libdumpstate.sony
+
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_STATIC_LIBRARY)
