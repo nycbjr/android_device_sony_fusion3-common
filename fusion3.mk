@@ -32,7 +32,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
@@ -128,12 +127,12 @@ PRODUCT_PACKAGES += \
     mac-update
 
 # FM Radio
-#PRODUCT_COPY_FILES += \
- #   $(COMMON_PATH)/rootdir/system/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
- #  frameworks/native/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/rootdir/system/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
+    frameworks/native/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml
 
-#PRODUCT_PACKAGES += \
-#    FmRadio
+PRODUCT_PACKAGES += \
+    FmRadio
 
 # Key layouts
 PRODUCT_COPY_FILES += \
@@ -182,7 +181,8 @@ PRODUCT_COPY_FILES += \
 
 # Thermal monitor configuration
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/system/etc/thermald.conf:system/etc/thermald.conf
+    $(COMMON_PATH)/rootdir/system/etc/thermald.conf:system/etc/thermald.conf \
+    $(COMMON_PATH)/rootdir/system/etc/disable_msm_thermal.sh:system/etc/disable_msm_thermal.sh
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -204,10 +204,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bt.hci_transport=smd
-
-# OpenGL ES 3.0
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version=196608
 
 # Include non-opensource parts
 $(call inherit-product, vendor/sony/fusion3-common/fusion3-common-vendor.mk)
